@@ -1,0 +1,44 @@
+{
+  "clip_version": 1,
+  "clip_cut": [],
+  "clip_modules": [
+    {
+      "internal_toggles": {
+        "shape_width": 100,
+        "shape_corners": 100,
+        "position_offset_x": 10,
+        "position_offset_y": 10,
+        "paint_color": 100
+      },
+      "internal_formulas": {
+        "position_offset_x": "$gv(sxo) + gv(dsp) + gv(gc)*(gv(bs)+gv(sp)) -gv(sp) + ((si(mindex) - gv(gr)*gv(gc)) % gv(gc)) * (gv(bs) + gv(sp))$",
+        "position_offset_y": "$gv(syo) + mu(floor, (si(mindex) - gv(gc)*gv(gr)) / 3) * (gv(bs) + gv(sp))$"
+      },
+      "internal_globals": {
+        "shape_width": "bs",
+        "shape_corners": "cr",
+        "paint_color": "sc"
+      },
+      "internal_type": "ShapeModule",
+      "position_anchor": "TOPLEFT",
+      "internal_animations": [
+        {
+          "type": "FORMULA",
+          "formula": "$tc(cut, tc(split, gv(dgmap), tc(utf, 0a), tc(cut, df(ss), 1, 1) * gv(gr) + mu(floor, (si(mindex)-gv(gr)*gv(gc))/gv(gc))), si(mindex)%gv(gc), 1) !\u003d X$",
+          "action": "SCALE",
+          "duration": 2.0,
+          "amount": 50.0,
+          "internal_toggles": {
+            "amount": 10,
+            "duration": 10
+          },
+          "internal_formulas": {
+            "amount": "$100-gv(ss)/gv(bs)*100$",
+            "duration": "$gv(dur)$"
+          }
+        }
+      ],
+      "internal_title": "s2"
+    }
+  ]
+}

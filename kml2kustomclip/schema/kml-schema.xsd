@@ -1,0 +1,434 @@
+<?xml version="1.0"?>
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema">
+
+  <xs:element name="preset">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element name="submodules" type="submodulesType" minOccurs="0" maxOccurs="1"></xs:element>
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+
+  <xs:complexType name="submodulesType">
+    <xs:sequence>
+      <xs:element name="shape" type="shapeType"/>
+    </xs:sequence>
+  </xs:complexType>
+
+  <xs:complexType name="shapeType">
+
+    <xs:sequence>
+      <xs:element name="paint" type="paintType" minOccurs="0" maxOccurs="1"/>
+      <xs:element name="position" type="positionType" minOccurs="0" maxOccurs="1"/>
+      <xs:element name="rotation" type="rotationType" minOccurs="0" maxOccurs="1"/>
+
+      <xs:choice minOccurs="0" maxOccurs="1">
+        <xs:element name="mask" type="maskType" minOccurs="0" maxOccurs="1"/>
+        <xs:element name="texture" type="textureType" minOccurs="0" maxOccurs="1"/>
+      </xs:choice>
+
+      <xs:element name="animations" type="animationsType" minOccurs="0" maxOccurs="1"/>
+
+      <xs:element ref="global" minOccurs="0" maxOccurs="unbounded"/>
+      <xs:element ref="formula" minOccurs="0" maxOccurs="unbounded"/>
+    </xs:sequence>
+
+    <xs:attribute name="name" type="xs:string" use="required"/>
+    <xs:attribute name="shape" use="required">
+      <xs:simpleType>
+        <xs:restriction base="xs:string">
+          <xs:enumeration value="SQUARE"/>
+          <xs:enumeration value="CIRCLE"/>
+          <xs:enumeration value="RECT"/>
+          <xs:enumeration value="OVAL"/>
+          <xs:enumeration value="TRIANGLE"/>
+          <xs:enumeration value="RTRIANGLE"/>
+          <xs:enumeration value="EXAGON"/>
+          <xs:enumeration value="SLICE"/>
+          <xs:enumeration value="ARC"/>
+        </xs:restriction>
+      </xs:simpleType>
+    </xs:attribute>
+
+    <xs:attribute name="width" type="positiveDoubleType" use="required"/>
+    <xs:attribute name="height" type="positiveDoubleType"/>
+    <xs:attribute name="corners" type="positiveDoubleType"/>
+    <xs:attribute name="angle" type="xs:double"/>
+    <xs:attribute name="repeat" type="positiveIntType"/>
+
+  </xs:complexType>
+
+  <!-- #region tabs -->
+
+  <xs:complexType name="paintType">
+    <xs:sequence>
+      <xs:choice maxOccurs="unbounded">
+        <xs:element ref="formula" maxOccurs="unbounded"/>
+        <xs:element ref="global" maxOccurs="unbounded"/>
+      </xs:choice>
+    </xs:sequence>
+    <xs:attribute name="style" use="required">
+      <xs:simpleType>
+        <xs:restriction base="xs:string">
+          <xs:enumeration value="FILL"/>
+          <xs:enumeration value="STROKE"/>
+        </xs:restriction>
+      </xs:simpleType>
+    </xs:attribute>
+    <xs:attribute name="color" type="colorType" use="required"/>
+    <xs:attribute name="strokewidth" type="positiveDoubleType"/>
+  </xs:complexType>
+
+  <xs:complexType name="positionType">
+    <xs:sequence>
+      <xs:element ref="formula" minOccurs="0" maxOccurs="unbounded"/>
+      <xs:element ref="global" minOccurs="0" maxOccurs="unbounded"/>
+    </xs:sequence>
+    <xs:attribute name="anchor" use="required">
+      <xs:simpleType>
+        <xs:restriction base="xs:string">
+          <xs:enumeration value="TOP_LEFT"/>
+          <xs:enumeration value="TOP"/>
+          <xs:enumeration value="TOP_RIGHT"/>
+          <xs:enumeration value="CENTER_LEFT"/>
+          <xs:enumeration value="CENTER"/>
+          <xs:enumeration value="CENTER_RIGHT"/>
+          <xs:enumeration value="BOTTOM_LEFT"/>
+          <xs:enumeration value="BOTTOM"/>
+          <xs:enumeration value="BOTTOM_RIGHT"/>
+        </xs:restriction>
+      </xs:simpleType>
+    </xs:attribute>
+    <xs:attribute name="xoffset" type="xs:double" />
+    <xs:attribute name="yoffset" type="xs:double" />
+    <xs:attribute name="lpadding" type="positiveDoubleType" />
+    <xs:attribute name="rpadding" type="positiveDoubleType" />
+    <xs:attribute name="tpadding" type="positiveDoubleType" />
+    <xs:attribute name="bpadding" type="positiveDoubleType" />
+  </xs:complexType>
+
+  <xs:complexType name="rotationType">
+    <xs:sequence>
+      <xs:choice maxOccurs="unbounded">
+        <xs:element ref="formula" minOccurs="0" maxOccurs="unbounded"/>
+        <xs:element ref="global" minOccurs="0" maxOccurs="unbounded"/>
+      </xs:choice>
+    </xs:sequence>
+    <xs:attribute name="mode" use="required">
+      <xs:simpleType>
+        <xs:restriction base="xs:string">
+          <xs:enumeration value="NONE"/>
+          <xs:enumeration value="FLIP_X"/>
+          <xs:enumeration value="FLIP_Y"/>
+          <xs:enumeration value="DEG90"/>
+          <xs:enumeration value="DEG180"/>
+          <xs:enumeration value="DEG270"/>
+          <xs:enumeration value="MANUAL"/>
+          <xs:enumeration value="CLOCK_HOUR_SMOOTH"/>
+          <xs:enumeration value="CLOCK_HOUR"/>
+          <xs:enumeration value="CLOCK_MINUTE_SMOOTH"/>
+          <xs:enumeration value="CLOCK_MINUTE"/>
+          <xs:enumeration value="CLOCK_SECOND_SMOOTH"/>
+          <xs:enumeration value="CLOCK_SECOND"/>
+        </xs:restriction>
+      </xs:simpleType>
+    </xs:attribute>
+    <xs:attribute name="offset" type="xs:double" />
+    <xs:attribute name="radius" type="xs:double" />
+  </xs:complexType>
+
+  <xs:complexType name="maskType">
+
+    <xs:sequence>
+      <xs:choice maxOccurs="unbounded">
+        <xs:element ref="formula" minOccurs="0" maxOccurs="unbounded"/>
+        <xs:element ref="global" minOccurs="0" maxOccurs="unbounded"/>
+      </xs:choice>
+    </xs:sequence>
+
+    <xs:attribute name="type" use="required">
+      <xs:simpleType>
+        <xs:restriction base="xs:string">
+          <xs:enumeration value="BACKGROUND"/>
+          <xs:enumeration value="BLURRED"/>
+          <xs:enumeration value="CLIP_NEXT"/>
+          <xs:enumeration value="ALL"/>
+        </xs:restriction>
+      </xs:simpleType>
+    </xs:attribute>
+
+    <xs:attribute name="blur" type="xs:double"/>
+    <xs:attribute name="dim" type="xs:double"/>
+    <xs:attribute name="filter" type="bitmapFilterType"/>
+    <xs:attribute name="filteramount" type="percentageDoubleType"/>
+
+  </xs:complexType>
+
+  <xs:complexType name="textureType">
+    <xs:sequence>
+      <xs:choice maxOccurs="unbounded">
+        <xs:element ref="formula" minOccurs="0" maxOccurs="unbounded"/>
+        <xs:element ref="global" minOccurs="0" maxOccurs="unbounded"/>
+      </xs:choice>
+    </xs:sequence>
+
+    <xs:attribute name="type" use="required">
+      <xs:simpleType>
+        <xs:restriction base="xs:string">
+          <xs:enumeration value="HORIZONTAL"/>
+          <xs:enumeration value="VERTICAL"/>
+          <xs:enumeration value="RADIAL"/>
+          <xs:enumeration value="SWEEP"/>
+          <xs:enumeration value="BITMAP"/>
+        </xs:restriction>
+      </xs:simpleType>
+    </xs:attribute>
+    <xs:attribute name="color" type="colorType"/>
+    <xs:attribute name="width" type="xs:double"/>
+    <xs:attribute name="offset" type="xs:double"/>
+    <xs:attribute name="centerx" type="xs:double"/>
+    <xs:attribute name="centery" type="xs:double"/>
+    <xs:attribute name="bitmap" type="xs:string"/>
+
+    <xs:attribute name="bitmapblur" type="xs:double"/>
+    <xs:attribute name="bitmapdim" type="xs:double"/>
+    <xs:attribute name="bitmapfilter" type="bitmapFilterType"/>
+    <xs:attribute name="bitmapfilteramount" type="percentageDoubleType"/>
+
+    <xs:attribute name="mode">
+      <xs:simpleType>
+        <xs:restriction base="xs:string">
+          <xs:enumeration value="FIT_CENTER"/>
+          <xs:enumeration value="REPEAT"/>
+          <xs:enumeration value="MIRROR"/>
+        </xs:restriction>
+      </xs:simpleType>
+    </xs:attribute>
+
+  </xs:complexType>
+
+  <xs:complexType name="animationsType">
+    <xs:sequence>
+      <xs:element name="animation" minOccurs="1" maxOccurs="unbounded">
+        <xs:complexType>
+          <xs:sequence>
+            <xs:choice maxOccurs="unbounded">
+              <xs:element name="keyframe" minOccurs="1" maxOccurs="unbounded">
+                <xs:complexType>
+                  <xs:attribute name="position" type="percentageDoubleType" use="required" />
+                  <xs:attribute name="property"  use="required">
+                    <xs:simpleType>
+                      <xs:restriction base="xs:string">
+                        <xs:enumeration value="X_OFFSET"/>
+                        <xs:enumeration value="Y_OFFSET"/>
+                        <xs:enumeration value="SCALE_X"/>
+                        <xs:enumeration value="SCALE_Y"/>
+                        <xs:enumeration value="SCALE_XY"/>
+                        <xs:enumeration value="SCALE_X_CENTER"/>
+                        <xs:enumeration value="SCALE_Y_CENTER"/>
+                        <xs:enumeration value="ROTATE"/>
+                        <xs:enumeration value="ROTATE_X_CENTER"/>
+                        <xs:enumeration value="ROTATE_Y_CENTER"/>
+                        <xs:enumeration value="OPACITY"/>
+                        <xs:enumeration value="DESATURATE"/>
+                      </xs:restriction>
+                    </xs:simpleType>
+                  </xs:attribute>
+                  <xs:attribute name="value" type="xs:double" use="required"/>
+                  <xs:attribute name="ease" type="animationEasingType"/>
+                </xs:complexType>
+              </xs:element>
+              <xs:element ref="formula" minOccurs="0" maxOccurs="unbounded"/>
+              <xs:element ref="global" minOccurs="0" maxOccurs="unbounded"/>
+            </xs:choice>
+          </xs:sequence>
+
+          <xs:attribute name="reacton" use="required">
+            <xs:simpleType>
+              <xs:restriction base="xs:string">
+                <xs:enumeration value="SCROLL"/>
+                <xs:enumeration value="DISABLED"/>
+                <xs:enumeration value="SCROLL_Y"/>
+                <xs:enumeration value="GYRO"/>
+                <xs:enumeration value="VISUALIZER"/>
+                <xs:enumeration value="SWITCH"/>
+                <xs:enumeration value="VISIBILITY"/>
+                <xs:enumeration value="UNLOCK"/>
+                <xs:enumeration value="LOOP_FW"/>
+                <xs:enumeration value="LOOP_2W"/>
+                <xs:enumeration value="FORMULA"/>
+              </xs:restriction>
+            </xs:simpleType>
+          </xs:attribute>
+          <xs:attribute name="action" use="required">
+            <xs:simpleType>
+              <xs:restriction base="xs:string">
+                <xs:enumeration value="SCROLL"/>
+                <xs:enumeration value="SCROLL_INVERTED"/>
+                <xs:enumeration value="SCALE"/>
+                <xs:enumeration value="SCALE_X"/>
+                <xs:enumeration value="SCALE_Y"/>
+                <xs:enumeration value="SCALE_INVERTED"/>
+                <xs:enumeration value="FADE"/>
+                <xs:enumeration value="FADE_INVERTED"/>
+                <xs:enumeration value="ROTATE"/>
+                <xs:enumeration value="ROTATE_INVERTED"/>
+                <xs:enumeration value="ADVANCED"/>
+                <xs:enumeration value="COLOR"/>
+                <xs:enumeration value="COLOR_INVERTED"/>
+              </xs:restriction>
+            </xs:simpleType>
+          </xs:attribute>
+          <xs:attribute name="ease" type="animationEasingType"/>
+          <xs:attribute name="anchor">
+            <xs:simpleType>
+              <xs:restriction base="xs:string">
+                <xs:enumeration value="MODULE_TOP_LEFT"/>
+                <xs:enumeration value="MODULE_TOP"/>
+                <xs:enumeration value="MODULE_TOP_RIGHT"/>
+                <xs:enumeration value="MODULE_CENTER_LEFT"/>
+                <xs:enumeration value="MODULE_CENTER"/>
+                <xs:enumeration value="MODULE_CENTER_RIGHT"/>
+                <xs:enumeration value="MODULE_BOTTOM_LEFT"/>
+                <xs:enumeration value="MODULE_BOTTOM"/>
+                <xs:enumeration value="MODULE_BOTTOM_RIGHT"/>
+                <xs:enumeration value="SCREEN_TOP_LEFT"/>
+                <xs:enumeration value="SCREEN_TOP"/>
+                <xs:enumeration value="SCREEN_TOP_RIGHT"/>
+                <xs:enumeration value="SCREEN_CENTER_LEFT"/>
+                <xs:enumeration value="SCREEN_CENTER"/>
+                <xs:enumeration value="SCREEN_CENTER_RIGHT"/>
+                <xs:enumeration value="SCREEN_BOTTOM_LEFT"/>
+                <xs:enumeration value="SCREEN_BOTTOM"/>
+                <xs:enumeration value="SCREEN_BOTTOM_RIGHT"/>
+              </xs:restriction>
+            </xs:simpleType>
+          </xs:attribute>
+          <xs:attribute name="rule">
+            <xs:simpleType>
+              <xs:restriction base="xs:string">
+                <xs:enumeration value="BEFORE_CENTER"/>
+                <xs:enumeration value="UP_TO_CENTER"/>
+                <xs:enumeration value="CENTER"/>
+                <xs:enumeration value="FROM_CENTER"/>
+                <xs:enumeration value="AFTER_CENTER"/>
+              </xs:restriction>
+            </xs:simpleType>
+          </xs:attribute>
+          <xs:attribute name="center">
+            <xs:simpleType>
+              <xs:restriction base="xs:string">
+                <xs:enumeration value="FIRST"/>
+                <xs:enumeration value="CENTER"/>
+                <xs:enumeration value="LAST"/>
+                <xs:enumeration value="SCREEN1"/>
+                <xs:enumeration value="SCREEN2"/>
+                <xs:enumeration value="SCREEN3"/>
+                <xs:enumeration value="SCREEN4"/>
+                <xs:enumeration value="SCREEN5"/>
+                <xs:enumeration value="SCREEN6"/>
+                <xs:enumeration value="SCREEN7"/>
+                <xs:enumeration value="SCREEN8"/>
+                <xs:enumeration value="SCREEN9"/>
+                <xs:enumeration value="CENTER_M1"/>
+                <xs:enumeration value="CENTER_M2"/>
+                <xs:enumeration value="CENTER_M3"/>
+                <xs:enumeration value="CENTER_P1"/>
+                <xs:enumeration value="CENTER_P2"/>
+                <xs:enumeration value="CENTER_P3"/>
+              </xs:restriction>
+            </xs:simpleType>
+          </xs:attribute>
+          <xs:attribute name="filter" type="colorFilterType"/>
+          <xs:attribute name="duration" type="positiveDoubleType"/>
+          <xs:attribute name="amount" type="xs:double"/>
+          <xs:attribute name="speed" type="xs:double"/>
+          <xs:attribute name="delay" type="positiveDoubleType"/>
+          <xs:attribute name="angle" type="xs:double"/>
+          <xs:attribute name="trigger" type="xs:string"/>
+        </xs:complexType>
+      </xs:element>
+    </xs:sequence>
+  </xs:complexType>
+
+  <!--#endregion-->
+
+  <xs:element name="formula">
+    <xs:complexType>
+      <xs:simpleContent>
+        <xs:extension base="xs:string">
+          <xs:attribute name="attr" type="xs:string" use="required"/>
+        </xs:extension>
+      </xs:simpleContent>
+    </xs:complexType>
+  </xs:element>
+
+  <xs:element name="global">
+    <xs:complexType>
+      <xs:attribute name="attr" type="xs:string" use="required"/>
+      <xs:attribute name="global" type="xs:string" use="required"/>
+    </xs:complexType>
+  </xs:element>
+
+  <xs:simpleType name="percentageDoubleType">
+    <xs:restriction base="xs:double">
+      <xs:minInclusive value="0"/>
+      <xs:maxInclusive value="100"/>
+    </xs:restriction>
+  </xs:simpleType>
+
+  <xs:simpleType name="positiveDoubleType">
+    <xs:restriction base="xs:double">
+      <xs:minInclusive value="0"/>
+    </xs:restriction>
+  </xs:simpleType>
+
+  <xs:simpleType name="positiveIntType">
+    <xs:restriction base="xs:int">
+      <xs:minInclusive value="0"/>
+    </xs:restriction>
+  </xs:simpleType>
+
+
+  <xs:simpleType name="colorType">
+    <xs:restriction base="xs:string">
+      <xs:pattern value="#([0-9a-fA-F]{3}|[0-9a-fA-F]{6}|[0-9a-fA-F]{8})"/>
+    </xs:restriction>
+  </xs:simpleType>
+
+  <xs:simpleType name="bitmapFilterType">
+    <xs:restriction base="xs:string">
+      <xs:enumeration value="BW"/>
+      <xs:enumeration value="SEPIA"/>
+      <xs:enumeration value="DESATURATE"/>
+      <xs:enumeration value="INVERT"/>
+      <xs:enumeration value="COLORIZE"/>
+      <xs:enumeration value="HUE"/>
+      <xs:enumeration value="CONTRAST"/>
+      <xs:enumeration value="BRIGHTEN"/>
+      <xs:enumeration value="DARKEN"/>
+    </xs:restriction>
+  </xs:simpleType>
+
+  <xs:simpleType name="colorFilterType">
+    <xs:restriction base="xs:string">
+      <xs:enumeration value="DESATURATE"/>
+      <xs:enumeration value="CONTRAST"/>
+      <xs:enumeration value="BRIGHTEN"/>
+      <xs:enumeration value="DARKEN"/>
+    </xs:restriction>
+  </xs:simpleType>
+
+  <xs:simpleType name="animationEasingType">
+    <xs:restriction base="xs:string">
+      <xs:enumeration value="NORMAL"/>
+      <xs:enumeration value="INVERTED"/>
+      <xs:enumeration value="BOUNCE"/>
+      <xs:enumeration value="OVERSHOOT"/>
+      <xs:enumeration value="STRAIGHT"/>
+      <xs:enumeration value="NORMAL_2W"/>
+      <xs:enumeration value="STRAIGHT_2W"/>
+    </xs:restriction>
+  </xs:simpleType>
+
+</xs:schema>

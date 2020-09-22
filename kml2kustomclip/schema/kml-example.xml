@@ -1,0 +1,29 @@
+<?xml version="1.0"?>
+<preset>
+  <submodules>
+    <shape name="sample shape 1" shape="SQUARE" width="40">
+      <paint style="STROKE" strokewidth="4" color="#ff0000">
+        <global attr="strokewidth" global="bs"/>
+        <formula attr="color">
+          $if(df(S)%2, #ff0000, #0000ff)$
+        </formula>
+      </paint>
+      <position anchor="CENTER" xoffset="20" yoffset="-10" />
+      <rotation mode="MANUAL" offset="50" radius="10" />
+
+      <texture type="RADIAL" color="#ff0000" centerx="19" centery="-10" bitmapblur="12">
+        <formula attr="color">$ce(#ff0000, #00ff00, 50)$</formula>
+      </texture>
+
+      <animations>
+        <animation reacton="SCROLL" action="ADVANCED" ease="INVERTED">
+          <keyframe property="X_OFFSET" position="0" value="0" ease="NORMAL"/>
+          <keyframe property="X_OFFSET" position="100" value="20"/>
+        </animation>
+        <animation reacton="SWITCH" action="SCALE"/>
+      </animations>
+
+      <formula attr="width">$df(s) + 10$</formula>
+    </shape>
+  </submodules>
+</preset>

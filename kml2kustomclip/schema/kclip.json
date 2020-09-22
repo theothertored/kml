@@ -1,0 +1,65 @@
+{
+  "clip_version": 0,
+  "clip_cut": false,
+  "clip_modules": [
+    {
+      "internal_toggles": {
+        "shape_width": 10,
+        "paint_color": 10,
+        "paint_stroke": 100,
+        "fx_gradient_color": 10
+      },
+      "internal_formulas": {
+        "shape_width": "$df(s) + 10$",
+        "paint_color": "$if(df(S)%2, #ff0000, #0000ff)$",
+        "fx_gradient_color": "$ce(#ff0000, #00ff00, 50)$"
+      },
+      "internal_globals": {
+        "paint_stroke": "bs"
+      },
+      "internal_animations": [
+        {
+          "animator": [
+            {
+              "property": "X_OFFSET",
+              "ease": "NORMAL",
+              "position": 0.0,
+              "value": 0.0
+            },
+            {
+              "property": "X_OFFSET",
+              "position": 100.0,
+              "value": 20.0
+            }
+          ],
+          "type": "SCROLL",
+          "action": "ADVANCED",
+          "ease": "INVERTED"
+        },
+        {
+          "animator": [],
+          "type": "SWITCH",
+          "action": "SCALE"
+        }
+      ],
+      "internal_type": "ShapeModule",
+      "internal_title": "sample shape 1",
+      "shape_type": "SQUARE",
+      "shape_width": 40.0,
+      "paint_style": "STROKE",
+      "paint_color": "#ff0000",
+      "paint_stroke": 4.0,
+      "position_anchor": "CENTER",
+      "position_offset_x": 20.0,
+      "position_offset_y": -10.0,
+      "shape_rotate_mode": "MANUAL",
+      "shape_rotate_offset": 50.0,
+      "shape_rotate_radius": 10.0,
+      "fx_gradient": "RADIAL",
+      "fx_gradient_color": "#ff0000",
+      "fx_gradient_offset_x": 19.0,
+      "fx_gradient_offset_y": -10.0,
+      "fx_bitmap_blur": 12.0
+    }
+  ]
+}
