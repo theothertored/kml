@@ -58,9 +58,6 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />
-    <None Include="kml-schema.xsd">
-      <SubType>Designer</SubType>
-    </None>
     <None Include="packages.config" />
     <None Include="schema\kclip.json" />
     <None Include="schema\kml-schema.xsd">
