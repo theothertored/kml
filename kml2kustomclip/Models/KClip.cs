@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace kml2kustomclip.Models
 {
-    internal class KClip
+    public class KClip
     {
         public int ClipVersion { get; set; }
         public bool ClipCut => false;

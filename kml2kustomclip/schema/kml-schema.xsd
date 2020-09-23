@@ -1,73 +1,153 @@
 <?xml version="1.0"?>
 <xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema">
 
+  <!-- root node -->
   <xs:element name="preset">
     <xs:complexType>
       <xs:sequence>
-        <xs:element name="submodules" type="submodulesType" minOccurs="0" maxOccurs="1"></xs:element>
+        <xs:element name="submodules" minOccurs="0" maxOccurs="1">
+          <xs:complexType>
+            <xs:sequence>
+              <xs:choice minOccurs="1" maxOccurs="unbounded">
+                <xs:element name="shape" type="shapeModuleType"/>
+                <xs:element name="text" type="textModuleType"/>
+              </xs:choice>
+            </xs:sequence>
+          </xs:complexType>
+        </xs:element>
       </xs:sequence>
     </xs:complexType>
   </xs:element>
 
-  <xs:complexType name="submodulesType">
-    <xs:sequence>
-      <xs:element name="shape" type="shapeType"/>
-    </xs:sequence>
-  </xs:complexType>
 
-  <xs:complexType name="shapeType">
-
+  <!-- base module to copy paste, was supposed to be "derive from", but didn't work out -->
+  <xs:complexType name="basicModuleType" abstract="true">
     <xs:sequence>
       <xs:element name="paint" type="paintType" minOccurs="0" maxOccurs="1"/>
       <xs:element name="position" type="positionType" minOccurs="0" maxOccurs="1"/>
       <xs:element name="rotation" type="rotationType" minOccurs="0" maxOccurs="1"/>
-
-      <xs:choice minOccurs="0" maxOccurs="1">
-        <xs:element name="mask" type="maskType" minOccurs="0" maxOccurs="1"/>
-        <xs:element name="texture" type="textureType" minOccurs="0" maxOccurs="1"/>
-      </xs:choice>
-
+      <xs:element ref="maskOrTexture" minOccurs="0" maxOccurs="1"/>
       <xs:element name="animations" type="animationsType" minOccurs="0" maxOccurs="1"/>
 
-      <xs:element ref="global" minOccurs="0" maxOccurs="unbounded"/>
-      <xs:element ref="formula" minOccurs="0" maxOccurs="unbounded"/>
+      <xs:choice minOccurs="0" maxOccurs="unbounded">
+        <xs:element ref="global"/>
+        <xs:element ref="formula"/>
+      </xs:choice>
+
     </xs:sequence>
 
     <xs:attribute name="name" type="xs:string" use="required"/>
-    <xs:attribute name="shape" use="required">
+    <xs:attribute name="repeat" type="xs:positiveInteger"/>
+  </xs:complexType>
+
+
+
+  <!-- module types -->
+
+  <!-- text module type -->
+  <xs:complexType name="textModuleType">
+    <xs:sequence>
+      <xs:element name="text" type="xs:string" minOccurs="1" maxOccurs="1"/>
+      <xs:element name="textfilters">
+        <xs:complexType>
+          <xs:sequence>
+            <xs:element name="filter" minOccurs="1" maxOccurs="unbounded">
+              <xs:simpleType>
+                <xs:restriction base="xs:string">
+                  <xs:enumeration value="LO"/>
+                  <xs:enumeration value="UP"/>
+                  <xs:enumeration value="N2W"/>
+                  <xs:enumeration value="CAP"/>
+                  <xs:enumeration value="NS"/>
+                  <xs:enumeration value="REV"/>
+                  <xs:enumeration value="NF"/>
+                  <xs:enumeration value="ROMAN"/>
+                </xs:restriction>
+              </xs:simpleType>
+            </xs:element>
+          </xs:sequence>
+        </xs:complexType>
+      </xs:element>
+      <xs:element name="paint" type="paintType" minOccurs="0" maxOccurs="1"/>
+      <xs:element name="position" type="positionType" minOccurs="0" maxOccurs="1"/>
+      <xs:element name="rotation" type="rotationType" minOccurs="0" maxOccurs="1"/>
+      <xs:element ref="maskOrTexture" minOccurs="0" maxOccurs="1"/>
+      <xs:element name="animations" type="animationsType" minOccurs="0" maxOccurs="1"/>
+
+      <xs:choice minOccurs="0" maxOccurs="unbounded">
+        <xs:element ref="global"/>
+        <xs:element ref="formula"/>
+      </xs:choice>
+    </xs:sequence>
+
+    <xs:attribute name="name" type="xs:string" use="required"/>
+    <xs:attribute name="repeat" type="xs:positiveInteger"/>
+
+    <xs:attribute name="font" type="xs:string"/>
+    <xs:attribute name="type">
       <xs:simpleType>
         <xs:restriction base="xs:string">
-          <xs:enumeration value="SQUARE"/>
-          <xs:enumeration value="CIRCLE"/>
-          <xs:enumeration value="RECT"/>
-          <xs:enumeration value="OVAL"/>
-          <xs:enumeration value="TRIANGLE"/>
-          <xs:enumeration value="RTRIANGLE"/>
-          <xs:enumeration value="EXAGON"/>
-          <xs:enumeration value="SLICE"/>
-          <xs:enumeration value="ARC"/>
+          <xs:enumeration value="SINGLE_FONT_HEIGHT"/>
+          <xs:enumeration value="SINGLE_FIXED_WIDTH"/>
+          <xs:enumeration value="FIXED_WIDTH"/>
+          <xs:enumeration value="FIT_TO_BOX"/>
         </xs:restriction>
       </xs:simpleType>
     </xs:attribute>
-
-    <xs:attribute name="width" type="positiveDoubleType" use="required"/>
-    <xs:attribute name="height" type="positiveDoubleType"/>
-    <xs:attribute name="corners" type="positiveDoubleType"/>
-    <xs:attribute name="angle" type="xs:double"/>
-    <xs:attribute name="repeat" type="positiveIntType"/>
+    <xs:attribute name="size" type="nonNegativeDoubleType"/>
+    <xs:attribute name="align">
+      <xs:simpleType>
+        <xs:restriction base="xs:string">
+          <xs:enumeration value="LEFT"/>
+          <xs:enumeration value="CENTER"/>
+          <xs:enumeration value="RIGHT"/>
+        </xs:restriction>
+      </xs:simpleType>
+    </xs:attribute>
+    <xs:attribute name="width" type="nonNegativeDoubleType"/>
+    <xs:attribute name="height" type="nonNegativeDoubleType"/>
+    <xs:attribute name="maxlines" type="nonNegativeDoubleType"/>
 
   </xs:complexType>
 
-  <!-- #region tabs -->
+  <!-- shape module type -->
+  <xs:complexType name="shapeModuleType">
+    <xs:sequence>
+      <xs:element name="paint" type="paintType" minOccurs="0" maxOccurs="1"/>
+      <xs:element name="position" type="positionType" minOccurs="0" maxOccurs="1"/>
+      <xs:element name="rotation" type="rotationType" minOccurs="0" maxOccurs="1"/>
+      <xs:element ref="maskOrTexture"/>
+      <xs:element name="animations" type="animationsType" minOccurs="0" maxOccurs="1"/>
+
+      <xs:choice minOccurs="0" maxOccurs="unbounded">
+        <xs:element ref="global"/>
+        <xs:element ref="formula"/>
+      </xs:choice>
+    </xs:sequence>
+
+    <xs:attribute name="name" type="xs:string" use="required"/>
+    <xs:attribute name="repeat" type="xs:nonNegativeInteger"/>
+    <xs:attribute name="shape" type="shapeType" use="required"/>
+
+    <xs:attribute name="width" type="nonNegativeDoubleType" use="required"/>
+    <xs:attribute name="height" type="nonNegativeDoubleType"/>
+    <xs:attribute name="corners" type="nonNegativeDoubleType"/>
+    <xs:attribute name="angle" type="xs:double"/>
+
+  </xs:complexType>
+
+
+
+  <!-- module tabs -->
 
   <xs:complexType name="paintType">
     <xs:sequence>
-      <xs:choice maxOccurs="unbounded">
+      <xs:choice minOccurs="0" maxOccurs="unbounded">
         <xs:element ref="formula" maxOccurs="unbounded"/>
         <xs:element ref="global" maxOccurs="unbounded"/>
       </xs:choice>
     </xs:sequence>
-    <xs:attribute name="style" use="required">
+    <xs:attribute name="style">
       <xs:simpleType>
         <xs:restriction base="xs:string">
           <xs:enumeration value="FILL"/>
@@ -75,8 +155,8 @@
         </xs:restriction>
       </xs:simpleType>
     </xs:attribute>
-    <xs:attribute name="color" type="colorType" use="required"/>
-    <xs:attribute name="strokewidth" type="positiveDoubleType"/>
+    <xs:attribute name="color" type="colorType"/>
+    <xs:attribute name="strokewidth" type="nonNegativeDoubleType"/>
   </xs:complexType>
 
   <xs:complexType name="positionType">
@@ -101,10 +181,10 @@
     </xs:attribute>
     <xs:attribute name="xoffset" type="xs:double" />
     <xs:attribute name="yoffset" type="xs:double" />
-    <xs:attribute name="lpadding" type="positiveDoubleType" />
-    <xs:attribute name="rpadding" type="positiveDoubleType" />
-    <xs:attribute name="tpadding" type="positiveDoubleType" />
-    <xs:attribute name="bpadding" type="positiveDoubleType" />
+    <xs:attribute name="lpadding" type="nonNegativeDoubleType" />
+    <xs:attribute name="rpadding" type="nonNegativeDoubleType" />
+    <xs:attribute name="tpadding" type="nonNegativeDoubleType" />
+    <xs:attribute name="bpadding" type="nonNegativeDoubleType" />
   </xs:complexType>
 
   <xs:complexType name="rotationType">
@@ -206,6 +286,11 @@
     </xs:attribute>
 
   </xs:complexType>
+
+  <!-- workaround for xs:choice not being allowed in xs:all -->
+  <xs:element name="maskOrTexture" abstract="true"/>
+  <xs:element name="mask" type="maskType" substitutionGroup="maskOrTexture" />
+  <xs:element name="texture" type="textureType" />
 
   <xs:complexType name="animationsType">
     <xs:sequence>
@@ -340,10 +425,10 @@
             </xs:simpleType>
           </xs:attribute>
           <xs:attribute name="filter" type="colorFilterType"/>
-          <xs:attribute name="duration" type="positiveDoubleType"/>
+          <xs:attribute name="duration" type="nonNegativeDoubleType"/>
           <xs:attribute name="amount" type="xs:double"/>
           <xs:attribute name="speed" type="xs:double"/>
-          <xs:attribute name="delay" type="positiveDoubleType"/>
+          <xs:attribute name="delay" type="nonNegativeDoubleType"/>
           <xs:attribute name="angle" type="xs:double"/>
           <xs:attribute name="trigger" type="xs:string"/>
         </xs:complexType>
@@ -351,7 +436,16 @@
     </xs:sequence>
   </xs:complexType>
 
-  <!--#endregion-->
+
+
+  <!-- formula and global elements -->
+
+  <xs:complexType name="formulaAndGlobalContainerType" abstract="true">
+    <xs:all>
+      <xs:element ref="formula" />
+      <xs:element ref="global" />
+    </xs:all>
+  </xs:complexType>
 
   <xs:element name="formula">
     <xs:complexType>
@@ -370,6 +464,12 @@
     </xs:complexType>
   </xs:element>
 
+
+
+  <!-- helper simple types -->
+
+  <!-- numeric -->
+
   <xs:simpleType name="percentageDoubleType">
     <xs:restriction base="xs:double">
       <xs:minInclusive value="0"/>
@@ -377,18 +477,33 @@
     </xs:restriction>
   </xs:simpleType>
 
-  <xs:simpleType name="positiveDoubleType">
+  <xs:simpleType name="nonNegativeDoubleType">
     <xs:restriction base="xs:double">
       <xs:minInclusive value="0"/>
     </xs:restriction>
   </xs:simpleType>
 
-  <xs:simpleType name="positiveIntType">
-    <xs:restriction base="xs:int">
-      <xs:minInclusive value="0"/>
+  <!-- other -->
+
+  <xs:simpleType name="emptyElementType">
+    <xs:restriction base="xs:string">
+      <xs:length value="0"/>
     </xs:restriction>
   </xs:simpleType>
 
+  <xs:simpleType name="shapeType">
+    <xs:restriction base="xs:string">
+      <xs:enumeration value="SQUARE"/>
+      <xs:enumeration value="CIRCLE"/>
+      <xs:enumeration value="RECT"/>
+      <xs:enumeration value="OVAL"/>
+      <xs:enumeration value="TRIANGLE"/>
+      <xs:enumeration value="RTRIANGLE"/>
+      <xs:enumeration value="EXAGON"/>
+      <xs:enumeration value="SLICE"/>
+      <xs:enumeration value="ARC"/>
+    </xs:restriction>
+  </xs:simpleType>
 
   <xs:simpleType name="colorType">
     <xs:restriction base="xs:string">
@@ -430,5 +545,6 @@
       <xs:enumeration value="STRAIGHT_2W"/>
     </xs:restriction>
   </xs:simpleType>
+
 
 </xs:schema>

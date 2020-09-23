@@ -21,6 +21,9 @@ namespace kml2kustomclip.Exceptions
         public static KmlParseException MissingRequiredAttribute(string attrName, XmlNode node)
             => new KmlParseException($"Missing required attribute '{attrName}' on node '{node.Name}'.");
 
+        public static Exception MissingRequiredNode(string nodeName, XmlNode moduleNode)
+            => new KmlParseException($"Missing required attribute '{nodeName}' in node '{moduleNode.Name}'.");
+
         public static KmlParseException CannotSetToFormulaAndGlobal(string attrName, XmlNode node)
             => new KmlParseException($"Cannot set attribute '{attrName}' of node '{node.Name}' to a formula and a global at the same time.");
 

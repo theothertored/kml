@@ -8,11 +8,11 @@ using System.Xml;
 
 namespace kml2kustomclip.Models
 {
-    internal class KAnimation : KModule
+    public class KAnimation : KModule
     {
         public List<KAnimationKeyframe> Animator { get; } = new List<KAnimationKeyframe>();
 
-        internal static KAnimation CreateFromModuleNode(XmlNode moduleNode)
+        public static KAnimation CreateFromModuleNode(XmlNode moduleNode)
         {
             if (moduleNode.Name != "animation")
                 throw new KmlParseException($"Expected 'animation' node, got '{moduleNode.Name}'.");

@@ -15,7 +15,7 @@ using System.Xml.Schema;
 
 namespace kml2kustomclip.Models
 {
-    internal class KModule
+    public class KModule
     {
         [JsonExtensionData]
         public Dictionary<string, object> Properties { get; } = new Dictionary<string, object>();
@@ -173,6 +173,9 @@ namespace kml2kustomclip.Models
 
             foreach (XmlNode node in submodulesNode.ChildNodes)
             {
+                // ignore comment nodes
+                if (node.NodeType == XmlNodeType.Comment) continue;
+
                 var repeatAttr = node.Attributes["repeat"];
 
                 if (repeatAttr != null)

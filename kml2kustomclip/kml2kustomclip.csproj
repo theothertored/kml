@@ -50,9 +50,11 @@
     <Compile Include="Exceptions\KmlParseException.cs" />
     <Compile Include="Models\KAnimation.cs" />
     <Compile Include="Models\KAnimationKeyframe.cs" />
+    <Compile Include="Models\KBasicModule.cs" />
     <Compile Include="Models\KClip.cs" />
     <Compile Include="Models\KModule.cs" />
     <Compile Include="Models\KShapeModule.cs" />
+    <Compile Include="Models\KTextModule.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
