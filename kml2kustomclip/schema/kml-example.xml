@@ -1,18 +1,22 @@
 <?xml version="1.0"?>
 <preset>
   <submodules>
-    <text name="sample text module" align="LEFT" font="Raleway-Thin.ttf" >
-      <text>$df("yyyy-MM-dd hh:mm:ss")$</text>
-      <textfilters>
-        <filter>LO</filter>
-        <filter>N2W</filter>
-      </textfilters>
-      <paint style="FILL"/>
-      <events>
-        <event type="SINGLE_TAP" action="SWITCH_GLOBAL" global="txt">
-          $df(S)$
-        </event>
-      </events>
-    </text>
+    <repeat times="3">
+      <text name="sample text module" align="LEFT" font="Raleway-Thin.ttf" >
+        <text>$df("yyyy-MM-dd hh:mm:ss")$</text>
+        <textfilters>
+          <filter>LO</filter>
+          <filter>N2W</filter>
+        </textfilters>
+        <paint style="FILL"/>
+        <events>
+          <event type="SINGLE_TAP" action="SWITCH_GLOBAL" global="txt">
+            $df(S)$
+          </event>
+        </events>
+      </text>
+      <shape name="shape" shape="SQUARE" width="20">
+      </shape>
+    </repeat>
   </submodules>
 </preset>

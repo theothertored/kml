@@ -182,26 +182,39 @@ namespace kml2kustomclip.Models
                 // ignore comment nodes
                 if (node.NodeType == XmlNodeType.Comment) continue;
 
-                var repeatAttr = node.Attributes["repeat"];
-
-                if (repeatAttr != null)
+                if (node.Name == "repeat")
                 {
+                    var timesAttr = node.Attributes["times"];
+                    if (timesAttr == null)
+                        throw KmlParseException.MissingRequiredAttribute("times", node);
+
                     int repeatCount;
-                    if (int.TryParse(repeatAttr.Value, out repeatCount))
+                    if (int.TryParse(timesAttr.Value, out repeatCount))
                     {
                         // add multiple times
                         for (int i = 0; i < repeatCount; i++)
-                            list.Add(ModuleNodeToKModule(node));
+                        {
+                            list.AddRange(SubmodulesNodeToKModuleList(node));
+                        }
                     }
                     else
                     {
-                        throw KmlParseException.InvalidRepeatValue(repeatAttr.Value);
+                        throw KmlParseException.InvalidRepeatValue(timesAttr.Value);
                     }
                 }
                 else
                 {
-                    // add once
+                    // add normal node
                     list.Add(ModuleNodeToKModule(node));
+                }
+
+                var repeatAttr = node.Attributes["repeat"];
+
+                if (repeatAttr != null)
+                {
+                }
+                else
+                {
                 }
 
             }

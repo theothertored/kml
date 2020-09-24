@@ -17,7 +17,6 @@ namespace kml2kustomclip.Models
             shape.LoadBasicsFromNode(moduleNode);
 
             shape.Properties.Add("internal_type", "ShapeModule");
-            shape.AddRequired(moduleNode, "name", "internal_title");
 
             shape.AddOptional(moduleNode, "shape", "shape_type");
             shape.AddOptional<double>(moduleNode, "width", "shape_width");

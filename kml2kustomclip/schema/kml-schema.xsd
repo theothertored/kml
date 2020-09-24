@@ -5,19 +5,28 @@
   <xs:element name="preset">
     <xs:complexType>
       <xs:sequence>
-        <xs:element name="submodules" minOccurs="0" maxOccurs="1">
-          <xs:complexType>
-            <xs:sequence>
-              <xs:choice minOccurs="1" maxOccurs="unbounded">
-                <xs:element name="shape" type="shapeModuleType"/>
-                <xs:element name="text" type="textModuleType"/>
-              </xs:choice>
-            </xs:sequence>
-          </xs:complexType>
-        </xs:element>
+        <xs:element name="submodules" type="submodulesType" minOccurs="0" maxOccurs="1"/>
       </xs:sequence>
     </xs:complexType>
   </xs:element>
+
+  <xs:complexType name="submodulesType">
+    <xs:sequence>
+      <xs:choice minOccurs="1" maxOccurs="unbounded">
+        <xs:element name="repeat">
+          <xs:complexType>
+            <xs:complexContent>
+              <xs:extension base="submodulesType">
+                <xs:attribute name="times" type="xs:positiveInteger" use="required"/>
+              </xs:extension>
+            </xs:complexContent>
+          </xs:complexType>
+        </xs:element>
+        <xs:element name="shape" type="shapeModuleType"/>
+        <xs:element name="text" type="textModuleType"/>
+      </xs:choice>
+    </xs:sequence>
+  </xs:complexType>
 
 
   <!-- base module to copy paste, was supposed to be "derive from", but didn't work out -->
@@ -37,7 +46,6 @@
     </xs:sequence>
 
     <xs:attribute name="name" type="xs:string" use="required"/>
-    <xs:attribute name="repeat" type="xs:positiveInteger"/>
   </xs:complexType>
 
 
@@ -82,7 +90,6 @@
     </xs:sequence>
 
     <xs:attribute name="name" type="xs:string" use="required"/>
-    <xs:attribute name="repeat" type="xs:positiveInteger"/>
 
     <xs:attribute name="font" type="xs:string"/>
     <xs:attribute name="type">
@@ -117,7 +124,7 @@
       <xs:element name="paint" type="paintType" minOccurs="0" maxOccurs="1"/>
       <xs:element name="position" type="positionType" minOccurs="0" maxOccurs="1"/>
       <xs:element name="rotation" type="rotationType" minOccurs="0" maxOccurs="1"/>
-      <xs:element ref="maskOrTexture"/>
+      <xs:element ref="maskOrTexture" minOccurs="0" maxOccurs="1"/>
       <xs:element name="animations" type="animationsType" minOccurs="0" maxOccurs="1"/>
       <xs:element name="events" type="eventsType" minOccurs="0" maxOccurs="1"/>
 
@@ -128,7 +135,6 @@
     </xs:sequence>
 
     <xs:attribute name="name" type="xs:string" use="required"/>
-    <xs:attribute name="repeat" type="xs:nonNegativeInteger"/>
     <xs:attribute name="shape" type="shapeType" use="required"/>
 
     <xs:attribute name="width" type="nonNegativeDoubleType" use="required"/>

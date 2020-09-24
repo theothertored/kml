@@ -1,2 +1,87 @@
-Error when parsing KML:
-Missing required attribute 'name' on node 'text'.
+{
+  "clip_version": 0,
+  "clip_cut": false,
+  "clip_modules": [
+    {
+      "text_filter": [
+        "LO",
+        "N2W"
+      ],
+      "internal_events": [
+        {
+          "type": "SINGLE_TAP",
+          "action": "SWITCH_GLOBAL",
+          "switch": "txt",
+          "switch_text": "$df(S)$"
+        }
+      ],
+      "internal_title": "sample text module",
+      "paint_style": "FILL",
+      "internal_type": "TextModule",
+      "text_family": "kfile://org.kustom.provider/fonts/Raleway-Thin.ttf",
+      "text_align": "LEFT",
+      "text_expression": "$df(\"yyyy-MM-dd hh:mm:ss\")$"
+    },
+    {
+      "internal_events": [],
+      "internal_title": "shape",
+      "internal_type": "ShapeModule",
+      "shape_type": "SQUARE",
+      "shape_width": 20.0
+    },
+    {
+      "text_filter": [
+        "LO",
+        "N2W"
+      ],
+      "internal_events": [
+        {
+          "type": "SINGLE_TAP",
+          "action": "SWITCH_GLOBAL",
+          "switch": "txt",
+          "switch_text": "$df(S)$"
+        }
+      ],
+      "internal_title": "sample text module",
+      "paint_style": "FILL",
+      "internal_type": "TextModule",
+      "text_family": "kfile://org.kustom.provider/fonts/Raleway-Thin.ttf",
+      "text_align": "LEFT",
+      "text_expression": "$df(\"yyyy-MM-dd hh:mm:ss\")$"
+    },
+    {
+      "internal_events": [],
+      "internal_title": "shape",
+      "internal_type": "ShapeModule",
+      "shape_type": "SQUARE",
+      "shape_width": 20.0
+    },
+    {
+      "text_filter": [
+        "LO",
+        "N2W"
+      ],
+      "internal_events": [
+        {
+          "type": "SINGLE_TAP",
+          "action": "SWITCH_GLOBAL",
+          "switch": "txt",
+          "switch_text": "$df(S)$"
+        }
+      ],
+      "internal_title": "sample text module",
+      "paint_style": "FILL",
+      "internal_type": "TextModule",
+      "text_family": "kfile://org.kustom.provider/fonts/Raleway-Thin.ttf",
+      "text_align": "LEFT",
+      "text_expression": "$df(\"yyyy-MM-dd hh:mm:ss\")$"
+    },
+    {
+      "internal_events": [],
+      "internal_title": "shape",
+      "internal_type": "ShapeModule",
+      "shape_type": "SQUARE",
+      "shape_width": 20.0
+    }
+  ]
+}
