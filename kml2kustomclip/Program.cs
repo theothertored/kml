@@ -23,7 +23,23 @@ namespace kml2kustomclip
             var submodulesNode = presetNode.SelectSingleNode("submodules");
 
             var kclip = new KClip();
-            kclip.ClipModules = KModule.SubmodulesNodeToKModuleList(submodulesNode);
+
+            try
+            {
+                kclip.ClipModules = KModule.SubmodulesNodeToKModuleList(submodulesNode);
+            }
+            catch (KmlParseException ex)
+            {
+                Console.WriteLine("Error when parsing KML:");
+                Console.WriteLine(ex.Message);
+                return 1;
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine("Unhandled exception:");
+                Console.WriteLine(ex.ToString());
+                return 1;
+            }
 
             var serializerSettings = new JsonSerializerSettings()
             {

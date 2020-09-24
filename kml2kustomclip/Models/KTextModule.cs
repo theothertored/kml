@@ -21,13 +21,17 @@ namespace kml2kustomclip.Models
 
             text.Properties.Add("internal_type", "TextModule");
 
-            text.AddRequired(moduleNode, "font", "text_family");
-            text.AddRequired(moduleNode, "align", "text_align");
-            text.AddRequired(moduleNode, "width", "text_width");
-            text.AddRequired(moduleNode, "height", "text_height");
-            text.AddRequired(moduleNode, "maxlines", "text_lines");
-            text.AddRequired(moduleNode, "size", "text_size");
-            text.AddRequired(moduleNode, "type", "text_size_type");
+            text.AddOptional(moduleNode, "font", "text_family", s => {
+                if (s.StartsWith("kfile://")) return s;
+                else return "kfile://org.kustom.provider/fonts/" + s;
+            });
+
+            text.AddOptional(moduleNode, "align", "text_align");
+            text.AddOptional(moduleNode, "width", "text_width");
+            text.AddOptional(moduleNode, "height", "text_height");
+            text.AddOptional(moduleNode, "maxlines", "text_lines");
+            text.AddOptional(moduleNode, "size", "text_size");
+            text.AddOptional(moduleNode, "type", "text_size_type");
 
             var textNode = moduleNode.SelectSingleNode("text");
             if (textNode == null) throw KmlParseException.MissingRequiredNode("text", moduleNode);

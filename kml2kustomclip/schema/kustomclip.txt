@@ -1,0 +1,2 @@
+Error when parsing KML:
+Missing required attribute 'name' on node 'text'.

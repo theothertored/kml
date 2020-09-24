@@ -24,6 +24,7 @@ namespace kml2kustomclip.Models
         public Dictionary<string, object> InternalFormulas { get; } = new Dictionary<string, object>();
         public Dictionary<string, object> InternalGlobals { get; } = new Dictionary<string, object>();
         public List<KAnimation> InternalAnimations { get; } = new List<KAnimation>();
+        public List<KTouchEvent> InternalEvents { get; } = new List<KTouchEvent>();
 
         public bool ShouldSerializeInternalToggles() => InternalToggles.Count > 0;
         public bool ShouldSerializeInternalFormulas() => InternalFormulas.Count > 0;
@@ -47,12 +48,12 @@ namespace kml2kustomclip.Models
         /// <summary>
         /// Run <see cref="AddOptional{T}(XmlNode, string, string)"/> with T = string.
         /// </summary>
-        protected void AddOptional(XmlNode node, string attrName, string entryName)
-            => AddOptional<string>(node, attrName, entryName);
+        protected void AddOptional(XmlNode node, string attrName, string entryName, Func<string, string> transform = null)
+            => AddOptional<string>(node, attrName, entryName, transform);
 
-        protected void AddOptional<T>(XmlNode node, string attrName, string entryName)
+        protected void AddOptional<T>(XmlNode node, string attrName, string entryName, Func<T, T> transform = null)
         {
-            AddAttrValueFormulaGlobal<T>(node, attrName, entryName, false);
+            AddAttrValueFormulaGlobal<T>(node, attrName, entryName, false, transform);
         }
 
         /// <summary>
@@ -69,7 +70,7 @@ namespace kml2kustomclip.Models
         /// <param name="attrName">The attribute name.</param>
         /// <param name="entryName">The key to add to dictionaries.</param>
         /// <exception cref="KmlParseException"></exception>
-        protected void AddAttrValueFormulaGlobal<T>(XmlNode node, string attrName, string entryName, bool throwIfMissing)
+        protected void AddAttrValueFormulaGlobal<T>(XmlNode node, string attrName, string entryName, bool throwIfMissing, Func<T, T> transform = null)
         {
             var attr = node.Attributes[attrName];
             var globalNode = node.SelectSingleNode($"global[@attr='{attrName}']");
@@ -84,7 +85,12 @@ namespace kml2kustomclip.Models
             }
 
             if (attr != null)
-                Properties.Add(entryName, ParseValue<T>(attr.Value));
+            {
+                if (transform == null)
+                    Properties.Add(entryName, ParseValue<T>(attr.Value));
+                else
+                    Properties.Add(entryName, transform((T)ParseValue<T>(attr.Value)));
+            }
 
             if (globalNode != null && formulaNode != null)
                 throw KmlParseException.CannotSetToFormulaAndGlobal(attrName, node);
@@ -205,11 +211,14 @@ namespace kml2kustomclip.Models
 
         public static KModule ModuleNodeToKModule(XmlNode moduleNode)
         {
-            var node = KShapeModule.TryCreateFromModuleNode(moduleNode);
+            KModule module = null;
+            module = KShapeModule.TryCreateFromModuleNode(moduleNode);
+            if (module == null)
+                module = KTextModule.TryCreateFromModuleNode(moduleNode);
 
-            if (node == null) throw KmlParseException.UnknownModuleName(moduleNode.Name);
+            if (module == null) throw KmlParseException.UnknownModuleName(moduleNode.Name);
 
-            return node;
+            return module;
         }
 
         #endregion

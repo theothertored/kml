@@ -1,13 +1,18 @@
 <?xml version="1.0"?>
 <preset>
   <submodules>
-    <text name="sample text module" align="LEFT" font=""  height="" maxlines="">
-      <text></text>
+    <text name="sample text module" align="LEFT" font="Raleway-Thin.ttf" >
+      <text>$df("yyyy-MM-dd hh:mm:ss")$</text>
       <textfilters>
         <filter>LO</filter>
         <filter>N2W</filter>
       </textfilters>
       <paint style="FILL"/>
+      <events>
+        <event type="SINGLE_TAP" action="SWITCH_GLOBAL" global="txt">
+          $df(S)$
+        </event>
+      </events>
     </text>
   </submodules>
 </preset>

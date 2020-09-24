@@ -72,10 +72,17 @@ namespace kml2kustomclip.Models
                 var animationNodes = animationsNode.SelectNodes("animation");
                 foreach (XmlNode animationNode in animationNodes)
                 {
-                    // ignore comment nodes
-                    if (animationNode.NodeType == XmlNodeType.Comment) continue;
-
                     InternalAnimations.Add(KAnimation.CreateFromModuleNode(animationNode));
+                }
+            }
+
+            var eventsNode = moduleNode.SelectSingleNode("events");
+            if (eventsNode != null)
+            {
+                var eventNodes = eventsNode.SelectNodes("event");
+                foreach (XmlNode eventNode in eventNodes)
+                {
+                    InternalEvents.Add(KTouchEvent.CreateFromEventNode(eventNode));
                 }
             }
         }

@@ -73,6 +73,7 @@
       <xs:element name="rotation" type="rotationType" minOccurs="0" maxOccurs="1"/>
       <xs:element ref="maskOrTexture" minOccurs="0" maxOccurs="1"/>
       <xs:element name="animations" type="animationsType" minOccurs="0" maxOccurs="1"/>
+      <xs:element name="events" type="eventsType" minOccurs="0" maxOccurs="1"/>
 
       <xs:choice minOccurs="0" maxOccurs="unbounded">
         <xs:element ref="global"/>
@@ -118,6 +119,7 @@
       <xs:element name="rotation" type="rotationType" minOccurs="0" maxOccurs="1"/>
       <xs:element ref="maskOrTexture"/>
       <xs:element name="animations" type="animationsType" minOccurs="0" maxOccurs="1"/>
+      <xs:element name="events" type="eventsType" minOccurs="0" maxOccurs="1"/>
 
       <xs:choice minOccurs="0" maxOccurs="unbounded">
         <xs:element ref="global"/>
@@ -436,6 +438,37 @@
     </xs:sequence>
   </xs:complexType>
 
+  <xs:complexType name="eventsType">
+    <xs:sequence>
+      <xs:element name="event" minOccurs="1" maxOccurs="unbounded">
+        <xs:complexType>
+          <xs:simpleContent>
+            <xs:extension base="xs:string">
+
+              <xs:attribute name="type" use="required">
+                <xs:simpleType>
+                  <xs:restriction base="xs:string">
+                    <xs:enumeration value="SINGLE_TAP"/>
+                  </xs:restriction>
+                </xs:simpleType>
+              </xs:attribute>
+
+              <xs:attribute name="action" use="required">
+                <xs:simpleType>
+                  <xs:restriction base="xs:string">
+                    <xs:enumeration value="SWITCH_GLOBAL"/>
+                  </xs:restriction>
+                </xs:simpleType>
+              </xs:attribute>
+
+              <xs:attribute name="global" type="xs:string"/>
+
+            </xs:extension>
+          </xs:simpleContent>
+        </xs:complexType>
+      </xs:element>
+    </xs:sequence>
+  </xs:complexType>
 
 
   <!-- formula and global elements -->
