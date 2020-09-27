@@ -1,4 +1,4 @@
-﻿using kml2kustomclip.Exceptions;
+﻿using kml2kclip.Exceptions;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Bson;
 using Newtonsoft.Json.Serialization;
@@ -13,7 +13,7 @@ using System.Threading.Tasks;
 using System.Xml;
 using System.Xml.Schema;
 
-namespace kml2kustomclip.Models
+namespace kml2kclip.Models
 {
     public class KModule
     {

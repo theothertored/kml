@@ -5,7 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Xml;
 
-namespace kml2kustomclip.Models
+namespace kml2kclip.Models
 {
     public abstract class KBasicModule : KModule
     {

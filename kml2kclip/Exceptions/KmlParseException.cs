@@ -5,7 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Xml;
 
-namespace kml2kustomclip.Exceptions
+namespace kml2kclip.Exceptions
 {
 
     [Serializable]

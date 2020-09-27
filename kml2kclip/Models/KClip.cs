@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace kml2kustomclip.Models
+namespace kml2kclip.Models
 {
     public class KClip
     {

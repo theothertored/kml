@@ -1,4 +1,4 @@
-﻿using kml2kustomclip.Exceptions;
+﻿using kml2kclip.Exceptions;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -6,7 +6,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Xml;
 
-namespace kml2kustomclip.Models
+namespace kml2kclip.Models
 {
     public class KAnimationKeyframe
     {
