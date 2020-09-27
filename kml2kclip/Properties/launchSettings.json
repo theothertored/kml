@@ -1,0 +1,9 @@
+{
+  "profiles": {
+    "kml2kclip": {
+      "commandName": "Project",
+      "commandLineArgs": "<kml-example.xml >kustomclip.txt",
+      "workingDirectory": "D:\\tored\\it\\kml\\kml2kclip\\schema\\"
+    }
+  }
+}

@@ -4,6 +4,8 @@ using Newtonsoft.Json;
 using Newtonsoft.Json.Serialization;
 using System;
 using System.Collections.Generic;
+using System.Diagnostics.Tracing;
+using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -16,12 +18,49 @@ namespace kml2kclip
         [STAThread]
         static int Main(string[] args)
         {
-            XmlDocument xmlDoc;
+            var xmlDoc = new XmlDocument();
+            string outFilename = null;
 
             try
             {
-                xmlDoc = new XmlDocument();
-                xmlDoc.Load(Console.In);
+                if (args.Length == 0)
+                {
+                    xmlDoc.Load(Console.In);
+                }
+                else
+                {
+                    for (int i = 0; i < args.Length; i++)
+                    {
+                        if (args[i] == "-in")
+                        {
+                            if (i == args.Length - 1)
+                            {
+                                Console.Write("Provide a filename for the -in argument.");
+                                return 1;
+                            }
+
+                            xmlDoc.Load(args[i + 1]);
+                            i++; // skip the next argument
+                        }
+                        else if (args[i] == "-out")
+                        {
+                            if (i == args.Length - 1)
+                            {
+                                Console.Write("Provide a filename for the -out argument.");
+                                return 1;
+                            }
+
+                            outFilename = args[i + 1];
+                            i++; // skip the next argument
+                        }
+                        else
+                        {
+                            Console.Write("Invalid argument detected: " + args[i]);
+                            return 1;
+                        }
+                    }
+                }
+
             }
             catch (Exception ex)
             {
@@ -64,13 +103,20 @@ namespace kml2kclip
 
             var serialized = JsonConvert.SerializeObject(kclip, serializerSettings);
 
-            Console.Write(serialized);
-
             var result = new StringBuilder()
                 .AppendLine("##KUSTOMCLIP##")
                 .AppendLine(serialized)
                 .AppendLine("##KUSTOMCLIP##")
                 .ToString();
+
+            if (outFilename != null)
+            {
+                File.WriteAllText(outFilename, result);
+            }
+            else
+            {
+                Console.Write(result);
+            }
 
             return 0;
         }
