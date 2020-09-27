@@ -14,7 +14,7 @@ A way to write Kustom presets in XML.
   - args: `kml2kclip -in kmlfile.xml -out kclip.txt`  
   
     The program will compile your XML into a kustom clipboard JSON and put it in the file specified (or into the console, if no file was specified!)
-   I would recommend against using `.json` as your output file extension, since it will include `##KUSTOMCLIP##` at the beginning and end, which will make it light up red in a JSON editor.
+    I would recommend against using `.json` as your output file extension, since it will include `##KUSTOMCLIP##` at the beginning and end, which will make it light up red in a JSON editor.
 
 5. Put the compiled kustom clipboard JSON into your mobile device's clipboard. You can do this with Pushbullet, through a Google Keep note, whatever you want.
 
@@ -53,6 +53,7 @@ A way to write Kustom presets in XML.
  - the label can be whatever you want it to be
  - the type must be `shell`
  - the command should be `.\\kml2kclip -in kml-preset.xml -out kclip.txt` , or something similar.
+    - this assumes `kml2kclip.exe` is in the same folder as your KML file. if that's not the case, you'll need to include a path to it, or add it's containing folder to PATH.
     - `.\\` is there because of powershell
     - I had to make `-in` and `-out` work because of powershell too
     - why doesn't powershell support `<` and `>` for stdio???
