@@ -10,11 +10,11 @@ A way to write Kustom presets in XML.
 3. In your xml editor of choice, write a preset and save it in a file. I'd recommend using `.xml` as the extension, just so you don't have to manually bind `.kml` to an xml editor.
 
 4. Run `kml2kclip.exe` from the console, passing the XML file as stdin or with the -in argument.
- - stdio: `kml2kclip <kmlfile.xml >kclip.txt`
- - args: `kml2kclip -in kmlfile.xml -out kclip.txt`  
-
- The program will compile your XML into a kustom clipboard JSON and put it in the file specified (or into the console, if no file was specified!)
- I would recommend against using `.json` as your output file extension, since it will include `##KUSTOMCLIP##` at the beginning and end, which will make it light up red in a JSON editor.
+  - stdio: `kml2kclip <kmlfile.xml >kclip.txt`
+  - args: `kml2kclip -in kmlfile.xml -out kclip.txt`  
+  
+    The program will compile your XML into a kustom clipboard JSON and put it in the file specified (or into the console, if no file was specified!)
+   I would recommend against using `.json` as your output file extension, since it will include `##KUSTOMCLIP##` at the beginning and end, which will make it light up red in a JSON editor.
 
 5. Put the compiled kustom clipboard JSON into your mobile device's clipboard. You can do this with Pushbullet, through a Google Keep note, whatever you want.
 
